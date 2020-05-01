@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165318397-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-165318397-1');
+    </script>
+    <title>Warwick Graduation Calculator</title>
+    <meta name="description" content="Graduation Calculator">
+    <meta name="author" content="Bhav">
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+    <script src="js/calculator.js"></script>
+    <script src="js/navbar.js"></script>
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+                <a class="navbar-item" href="index.html">
+                        <img src="logo.png"> <b>GB Calculator</b>
+                    </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="secondyears.html">
+                    Second Year Bachelors
+                </a>
+
+                <a class="navbar-item" href="thirdyearfinalists.html">
+                    Third Year Bachelors
+                </a>
+
+                <a class="navbar-item" href='thirdyearintermmediate.html'>
+                    Third Year Masters
+                </a>
+
+                <a class="navbar-item" href='fourthyearmasters.html'>
+                    Fourth Year Masters
+                </a>
+
+               
+            </div>
+
+        
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Graduation Benchmark Calculator
+            </h1>
+            <div class="columns ">
+
+                <div class="column is-full ">
+                    <h1 class="title is-4">Finalists</h1>
+                    This simple online tool will help you calculate your final grade and your graduation benchmark. Use the forecasted grade
+                    as what you think you might get in third year to see if your graduation benchmark will come in use or
+                    not. Please enter all values for an accurate result.
+                    <br>
+                    <br> If you have modules with 0 coursework you can leave them out and the calculator will default your total
+                    CATS to 120. If you're overcatting no clue but goodluck.
+                    <br>
+                    <br> NOTE: Don't add an extra empty assignment box it'll break.
+                    <br> ALSO NOTE: Do not enter a % sign thats just there so you dont put the decimal version, for some reason
+                    safari lets you put a % on a number input, this shouldn't be an issue on chrome.
+                    <div class="field" id="modules">
+                        <div class="box">
+
+                            <label class="label">First Year</label>
+                            <div class="control">
+                                Weighting*:
+                                <input id='weight-first-year' class="input" type="number" placeholder="e.g. 30%"> Mark*:
+                                <input id='mark-first-year' class="input" type="number" placeholder="e.g. 70%">
+                            </div>
+                        </div>
+                        <div class="box">
+
+                            <div class="field">
+                                <label class="label">Second Year</label>
+                                <div class="control">
+                                    Weighting*:
+                                    <input id='weight-second-year' class="input" type="number" placeholder="e.g. 30%">
+                                    <br> Mark*:
+                                    <input id='mark-second-year' class="input" type="number" placeholder="e.g. 70%">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="field">
+                                <label class="label">Third Year</label>
+                                <div class="control">
+                                    Weighting*:
+                                    <input id='weight-third-year' class="input" type="number" placeholder="e.g. 60%">
+                                    <br> Mark (Predicted):
+                                    <input id='mark-third-year' class="input" type="number" placeholder="e.g. 70%"> use this as a guess to what your final grade without benchmark is
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box" id="module-1">
+                            <div class="field">
+                                <label class="label">Module</label>
+                                <div class="control">
+                                    Name (optional):
+                                    <input class="input" id='name-1' type="text" placeholder="e.g. CS324 Graphics">
+                                </div>
+                                <div class="control">
+                                    CATS*:
+                                    <input class="input" id='cats-1' type="number" placeholder="e.g. 15">
+                                </div>
+                            </div>
+
+                            <div class="field" id='suckass-1'>
+                                <label class="label">Assignment</label>
+                                <div class="control">
+                                    Weighting*:
+                                    <input id="weight-1-1" class="input" type="number" placeholder="e.g. 30%">
+                                    <br>
+                                    <br> Mark*:
+                                    <input id="mark-1-1" class="input" type="number" placeholder="e.g. 70%">
+                                </div>
+
+                            </div>
+                            <div class="control">
+                                <button id='a1' onclick="add_assignment(this.id)" class="assignments-1 button is-link">Add assigment</button>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="control">
+                                <button id='m1' onclick="create_module(this.id)" class="button is-link">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button class="button is-link " onclick="add_module()">Add Module</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="control is-pulled-right	">
+                        <button onclick="calculateGB()" class="button is-primary">Calculate</button>
+                    </div>
+                    <br>
+                    <br>
+                    <p id='y3avg'>Year 3 Average: </p>
+                    <p id='gb'>Graduation Benchmark: </p>
+                    <p id='actual'>Forecasted Grade: </p>
+
+                </div>
+                <!-- <div class="column is-full is-secondary">
+                        <h1 class="title is-4">Intermmediate Year (To be added)</h1>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+
+</body>
+
+</html>

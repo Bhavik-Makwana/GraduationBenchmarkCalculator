@@ -55,14 +55,18 @@ var firstYear = {
 var secondYear = {
     "mark": 0,
     "weighting": 0,
-    "percentageDone": 0
 };
 var thirdYear = {
     "mark": 0,
     "weighting": 0,
+};
+
+var fourthYear = {
+    "mark": 0,
+    "weighting": 0,
     "percentageDone": 0
 };
-var thirdYearActual = {
+var fourthYearActual = {
     "mark": 0,
     "weighting": 0
 };
@@ -73,6 +77,9 @@ function calculateGB() {
 
     secondYear["mark"] = document.getElementById("mark-second-year").value;
     secondYear["weighting"] = document.getElementById("weight-second-year").value / 100;
+
+    thirdYear["mark"] = document.getElementById("mark-third-year").value;
+    thirdYear["weighting"] = document.getElementById("weight-third-year").value / 100;
 
     var scaleFactor = 99999999999999;
     for (var i = 0; i < modules.length; i++) {
@@ -104,20 +111,20 @@ function calculateGB() {
 
     var current_third_year = (a / b) * 100;
 
-    thirdYear.mark = current_third_year;
-    thirdYear.weighting = document.getElementById('weight-third-year').value / 100;
-    thirdYear.percentageDone = percent_of_third_year_completed;
+    fourthYear.mark = current_third_year;
+    fourthYear.weighting = document.getElementById('weight-fourth-year').value / 100;
+    fourthYear.percentageDone = percent_of_third_year_completed;
 
-    thirdYearActual.weighting = document.getElementById('weight-third-year').value / 100;
-    thirdYearActual.mark = document.getElementById('mark-third-year').value;
+    fourthYearActual.weighting = document.getElementById('weight-fourth-year').value / 100;
+    fourthYearActual.mark = document.getElementById('mark-fourth-year').value;
 
     graduationBenchmark = (firstYear.mark * firstYear.weighting + secondYear.mark * secondYear.weighting +
-        (thirdYear.mark * thirdYear.weighting * thirdYear.percentageDone)) /
-        (firstYear.weighting + secondYear.weighting + (thirdYear.weighting * thirdYear.percentageDone));
+        thirdYear.mark * thirdYear.weighting + (fourthYear.mark * fourthYear.weighting * fourthYear.percentageDone)) /
+        (firstYear.weighting + secondYear.weighting + thirdYear.weighting  + (fourthYear.weighting * fourthYear.percentageDone));
 
     actualGrade =  (firstYear.mark*firstYear.weighting + secondYear.mark*secondYear.weighting +
-        thirdYearActual.mark*thirdYearActual.weighting) / 
-        (firstYear.weighting + secondYear.weighting + thirdYear.weighting);
+        thirdYear.mark*thirdYear.weighting + fourthYearActual.mark*fourthYearActual.weighting) / 
+        (firstYear.weighting + secondYear.weighting + thirdYear.weighting + fourthYear.weighting);
 
     document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark+"%";
 
