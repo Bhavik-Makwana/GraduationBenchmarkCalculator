@@ -8,6 +8,7 @@
     <title>Warwick Graduation Calculator</title>
     <meta name="description" content="Graduation Calculator">
     <meta name="author" content="Bhav">
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,15 +24,24 @@
                 Graduation Benchmark Calculator
             </h1>
             <div class="columns ">
+        
                 <div class="column is-full ">
-                    Finalists
+                        <h1 class="title is-4">Finalists</h1>
+                        This simple online tool will help you calculate your final grade
+                        and your graduation benchmark. Use the forecasted grade as what you
+                        think you might get in third year to see if your graduation benchmark
+                        will come in use or not.
+                        Please enter all values for an accurate result.
+                        <br>
+                        NOTE: Results may be off +/- 0.1% due to rounding errors and I no longer have
+                        time to work on this project, please keep this in mind.
                     <div class="field" id="modules">
                         <div class="box">
 
                             <label class="label">First Year</label>
                             <div class="control">
-                                Weighting:
-                                <input id='weight-first-year' class="input" type="number" placeholder="e.g. 30%"> Mark:
+                                Weighting*:
+                                <input id='weight-first-year' class="input" type="number" placeholder="e.g. 30%"> Mark*:
                                 <input id='mark-first-year' class="input" type="number" placeholder="e.g. 70%">
                             </div>
                         </div>
@@ -40,9 +50,9 @@
                             <div class="field">
                                 <label class="label">Second Year</label>
                                 <div class="control">
-                                    Weighting:
+                                    Weighting*:
                                     <input id='weight-second-year' class="input" type="number" placeholder="e.g. 30%">
-                                    <br> Mark:
+                                    <br> Mark*:
                                     <input id='mark-second-year' class="input" type="number" placeholder="e.g. 70%">
                                 </div>
                             </div>
@@ -52,8 +62,11 @@
                             <div class="field">
                                 <label class="label">Third Year</label>
                                 <div class="control">
-                                    Weighting:
+                                    Weighting*:
                                     <input id='weight-third-year' class="input" type="number" placeholder="e.g. 60%">
+                                    <br> Mark (Predicted):
+                                    <input id='mark-third-year' class="input" type="number" placeholder="e.g. 70%">
+                                    use this as a guess to what your final grade without benchmark is
                                 </div>
                             </div>
                         </div>
@@ -62,22 +75,22 @@
                             <div class="field">
                                 <label class="label">Module</label>
                                 <div class="control">
-                                    Name:
+                                    Name (optional):
                                     <input class="input" id='name-1' type="text" placeholder="e.g. CS324 Graphics">
                                 </div>
                                 <div class="control">
-                                    CATS:
-                                    <input class="input" id='cats-1' type="text" placeholder="e.g. 15">
+                                    CATS*:
+                                    <input class="input" id='cats-1' type="number" placeholder="e.g. 15">
                                 </div>
                             </div>
 
                             <div class="field" id='suckass-1'>
                                 <label class="label">Assignment</label>
                                 <div class="control">
-                                    Weighting:
+                                    Weighting*:
                                     <input id="weight-1-1" class="input" type="number" placeholder="e.g. 30%">
                                     <br>
-                                    <br> Mark:
+                                    <br> Mark*:
                                     <input id="mark-1-1" class="input" type="number" placeholder="e.g. 70%">
                                 </div>
 
@@ -104,11 +117,12 @@
                     <br>
                     <p id='y3avg'>Year 3 Average: </p>
                     <p id='gb'>Graduation Benchmark: </p>
+                    <p id='actual'>Forecasted Grade: </p>
               
                 </div>
-                <div class="column is-full is-secondary">
-                    Intermmediate Year
-                </div>
+                <!-- <div class="column is-full is-secondary">
+                        <h1 class="title is-4">Intermmediate Year (To be added)</h1>
+                </div> -->
             </div>
         </div>
     </section>

@@ -22,26 +22,25 @@ class Module {
             total += this.weightings[i] * this.marks[i];
         }
         this.percentageDone = total / 100;
-        this.catsDone
+   
     }
 
     CATS_done() {
         let temp = 0
         for (var i = 0; i < this.weightings.length; i++) {
-            temp += this.weightings[i];
+            temp += parseFloat(this.weightings[i]);
         }
         this.catsDone = (temp * this.CATS) / 100;
+        console.log(this.catsDone);
     }
 
     scale_data(scaleFactor) {
         this.scaledWeightings = [];
-        console.log("ScaleFactor " + scaleFactor)
         var scaler = this.CATS / scaleFactor;
 
         for (var i = 0; i < this.weightings.length; i++) {
             this.scaledWeightings.push(this.weightings[i] * scaler);
         }
-        console.log("scaled weighting" + this.scaledWeightings);
         this.scaledPercentageDone = this.percentageDone * scaler;
         this.scaledCATS = this.CATS * scaler;
     }
@@ -149,12 +148,17 @@ function calculateGB() {
     }
 
     var percent_of_third_year_completed = 0;
-    var total_cats = 1;
+    var total_cats = 0;
     for (var i = 0; i < modules.length; i++) {
-        percent_of_third_year_completed += modules[i].catsDone;
-        total_cats += modules[i].CATS;
+        percent_of_third_year_completed += parseFloat(modules[i].catsDone);
+        console.log(percent_of_third_year_completed);
+        total_cats += parseInt(modules[i].CATS,10);
     }
+    console.log("%DNE" + percent_of_third_year_completed);
+    console.log("TOTAL"+ total_cats);
     percent_of_third_year_completed /= total_cats;
+    
+    
     console.log(modules);
 // this.scaledWeighting
     // this.scaledPercentageDone
@@ -170,6 +174,9 @@ function calculateGB() {
     thirdYear.mark = current_third_year;
     thirdYear.weighting = document.getElementById('weight-third-year').value / 100;
     thirdYear.percentageDone = percent_of_third_year_completed;
+
+    thirdYearActual.weighting = document.getElementById('weight-third-year').value / 100;
+    thirdYearActual.mark = document.getElementById('mark-third-year').value;
     console.log(thirdYear);
     console.log(secondYear);
     console.log(firstYear);
@@ -177,11 +184,13 @@ function calculateGB() {
         (thirdYear.mark * thirdYear.weighting * thirdYear.percentageDone)) /
         (firstYear.weighting + secondYear.weighting + (thirdYear.weighting * thirdYear.percentageDone));
 
-    // actualGrade =  (firstYear.mark*firstYear.weighting + secondYear.mark*secondYear.weighting +
-    //     thirdYearActual.mark*thirdYearActual.weighting) / 
-    //     (firstYear.weighting + secondYear.weighting + thirdYear.weighting);
+    actualGrade =  (firstYear.mark*firstYear.weighting + secondYear.mark*secondYear.weighting +
+        thirdYearActual.mark*thirdYearActual.weighting) / 
+        (firstYear.weighting + secondYear.weighting + thirdYear.weighting);
 
-    document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark;
+    document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark+"%";
+
+    document.getElementById('actual').innerHTML = "Forecasted Grade: " + actualGrade + "%";
     document.getElementById('y3avg').innerHTML = "Year 3 Average: " + current_third_year + "%";
     console.log("Graduation Benchmark: " + graduationBenchmark);
     // console.log("Actual Grade: " + actualGrade);
@@ -194,12 +203,13 @@ var moduleAssignments = { "1": 1 };
 function add_assignment(id) {
     num = id.slice(1, 2);
     moduleAssignments[num] += 1;
-    document.getElementById("suckass-" + num).innerHTML +=
+    // document.getElementById("suckass-" + num).innerHTML +=
+    $('#suckass-'+num).append(
         `<hr>
         <div class="control">
         Weighting: <input id="weight-`+ num + `-` + moduleAssignments[num] + `" class="input" type="number" placeholder="e.g. 30"> <br><br>
         Mark: <input id="mark-`+ num + `-` + moduleAssignments[num] + `" class="input" type="number" placeholder="e.g. 70">
-        </div>`;
+        </div>`);
 }
 
 function create_module(id) {
@@ -212,24 +222,37 @@ function create_module(id) {
     for (var i = 1; i <= moduleAssignments[num]; i++) {
         var w = document.getElementById('weight-' + num + '-' + i).value;
         var mark = document.getElementById('mark-' + num + '-' + i).value;
+        // if (w != null && mark != null){
         m.add_assessment(w, mark);
+        // }
     }
     m.percentage_done();
     m.CATS_done();
     modules.push(m);
 
     document.getElementById('module-' + num).innerHTML =
+    // $('#module-'+num).append(
         "<b>Module</b>: " + m.name +
         "<br><b>CATS</b>: " + m.CATS +
-        "<br><b>Achieved</b>: " + m.percentageDone + "%";
+        "<br><b>Achieved</b>: " + m.percentageDone + "% <br>";
+        // "<button id='d"+num+"'class='button is-link is-pushed-right' onclick='delete_module(this.id)'>Delete</button>";
     console.log(modules);
 }
 
+function delete_module(id) {
+    num = id.slice(1, 2);
+    document.getElementById('module-' + num).parentNode.removeChild(document.getElementById('module-' + num));
+    var a = modules.splice(0, num);
+    var b = modules.splice(num, modules.length);
+    modules = a.concat(b);
+    console.log(modules);
+}
 
 function add_module() {
     moduleCount += 1;
     moduleAssignments[moduleCount] = 1;
-    document.getElementById("modules").innerHTML +=
+    $('#modules').append(
+    // document.getElementById("modules").innerHTML +=
         `<div class="box" id="module-` + moduleCount + `">
     <div class="field">
         <label class="label">Module</label>
@@ -239,7 +262,7 @@ function add_module() {
         </div>
         <div class="control">
             CATS:
-            <input class="input" id='cats-`+ moduleCount + `' type="text" placeholder="e.g. 15">
+            <input class="input" id='cats-`+ moduleCount + `' type="number" placeholder="e.g. 15">
         </div>
     </div>
 
@@ -262,5 +285,5 @@ function add_module() {
     <div class="control">
         <button id="m`+ moduleCount + `" onclick="create_module(this.id)" class="button is-link">Done</button>
     </div>
-</div>`;
+</div>`);
 }
