@@ -152,7 +152,10 @@ function calculateGB() {
   
         total_cats += parseInt(modules[i].CATS,10);
     }
-
+    if (total_cats < 120) {
+        total_cats = 120;
+    }
+    
     percent_of_third_year_completed /= total_cats;
     
     
