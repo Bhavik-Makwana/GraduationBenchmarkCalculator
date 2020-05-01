@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+    <script src="js/calculator.js"></script>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Graduation Benchmark Calculator
+            </h1>
+            <div class="columns ">
+                <div class="column is-full ">
+                    Finalists
+                    <div class="field" id="modules">
+                        <div class="box">
+
+                            <label class="label">First Year</label>
+                            <div class="control">
+                                Weighting:
+                                <input id='weight-first-year' class="input" type="number" placeholder="e.g. 30%"> Mark:
+                                <input id='mark-first-year' class="input" type="number" placeholder="e.g. 70%">
+                            </div>
+                        </div>
+                        <div class="box">
+
+                            <div class="field">
+                                <label class="label">Second Year</label>
+                                <div class="control">
+                                    Weighting:
+                                    <input id='weight-second-year' class="input" type="number" placeholder="e.g. 30%">
+                                    <br> Mark:
+                                    <input id='mark-second-year' class="input" type="number" placeholder="e.g. 70%">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="field">
+                                <label class="label">Third Year</label>
+                                <div class="control">
+                                    Weighting:
+                                    <input id='weight-third-year' class="input" type="number" placeholder="e.g. 60%">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box" id="module-1">
+                            <div class="field">
+                                <label class="label">Module</label>
+                                <div class="control">
+                                    Name:
+                                    <input class="input" id='name-1' type="text" placeholder="e.g. CS324 Graphics">
+                                </div>
+                                <div class="control">
+                                    CATS:
+                                    <input class="input" id='cats-1' type="text" placeholder="e.g. 15">
+                                </div>
+                            </div>
+
+                            <div class="field" id='suckass-1'>
+                                <label class="label">Assignment</label>
+                                <div class="control">
+                                    Weighting:
+                                    <input id="weight-1-1" class="input" type="number" placeholder="e.g. 30%">
+                                    <br>
+                                    <br> Mark:
+                                    <input id="mark-1-1" class="input" type="number" placeholder="e.g. 70%">
+                                </div>
+
+                            </div>
+                            <div class="control">
+                                <button  id='a1' onclick="add_assignment(this.id)" class="assignments-1 button is-link">Add assigment</button>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="control">
+                                <button id='m1' onclick="create_module(this.id)" class="button is-link">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button class="button is-link " onclick="add_module()">Add Module</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="control is-pulled-right	">
+                        <button onclick="calculateGB()" class="button is-primary">Calculate</button>
+                    </div>
+                    <br>
+                    <br>
+                    <p id='y3avg'>Year 3 Average: </p>
+                    <p id='gb'>Graduation Benchmark: </p>
+              
+                </div>
+                <div class="column is-full is-secondary">
+                    Intermmediate Year
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+
+</html>
