@@ -31,7 +31,6 @@ class Module {
             temp += parseFloat(this.weightings[i]);
         }
         this.catsDone = (temp * this.CATS) / 100;
-        console.log(this.catsDone);
     }
 
     scale_data(scaleFactor) {
@@ -142,7 +141,6 @@ function calculateGB() {
         }
     }
     
-    console.log(scaleFactor);
     for (var i = 0; i < modules.length; i++) {
         modules[i].scale_data(scaleFactor);
     }
@@ -151,23 +149,19 @@ function calculateGB() {
     var total_cats = 0;
     for (var i = 0; i < modules.length; i++) {
         percent_of_third_year_completed += parseFloat(modules[i].catsDone);
-        console.log(percent_of_third_year_completed);
+  
         total_cats += parseInt(modules[i].CATS,10);
     }
-    console.log("%DNE" + percent_of_third_year_completed);
-    console.log("TOTAL"+ total_cats);
+
     percent_of_third_year_completed /= total_cats;
     
     
-    console.log(modules);
 // this.scaledWeighting
     // this.scaledPercentageDone
     // this.scaledCATS
     var a = modules.reduce((prev, cur) => prev + cur.scaledPercentageDone, 0);
 
     var b = modules.reduce((prev, cur) => prev + cur.scaledWeightings.reduce((a, b) => a + b, 0), 0);
-    console.log("percentage done " + a);
-    console.log("weighted module totals " + b);
 
     var current_third_year = (a / b) * 100;
 
@@ -177,9 +171,7 @@ function calculateGB() {
 
     thirdYearActual.weighting = document.getElementById('weight-third-year').value / 100;
     thirdYearActual.mark = document.getElementById('mark-third-year').value;
-    console.log(thirdYear);
-    console.log(secondYear);
-    console.log(firstYear);
+
     graduationBenchmark = (firstYear.mark * firstYear.weighting + secondYear.mark * secondYear.weighting +
         (thirdYear.mark * thirdYear.weighting * thirdYear.percentageDone)) /
         (firstYear.weighting + secondYear.weighting + (thirdYear.weighting * thirdYear.percentageDone));
@@ -192,8 +184,7 @@ function calculateGB() {
 
     document.getElementById('actual').innerHTML = "Forecasted Grade: " + actualGrade + "%";
     document.getElementById('y3avg').innerHTML = "Year 3 Average: " + current_third_year + "%";
-    console.log("Graduation Benchmark: " + graduationBenchmark);
-    // console.log("Actual Grade: " + actualGrade);
+
 }
 
 
@@ -215,7 +206,7 @@ function add_assignment(id) {
 function create_module(id) {
     m = new Module();
     num = id.slice(1, 2);
-    console.log(num);
+
     m.name = document.getElementById('name-' + num).value;
     m.CATS = document.getElementById('cats-' + num).value;
     var assessTotal = 0;
@@ -236,7 +227,6 @@ function create_module(id) {
         "<br><b>CATS</b>: " + m.CATS +
         "<br><b>Achieved</b>: " + m.percentageDone + "% <br>";
         // "<button id='d"+num+"'class='button is-link is-pushed-right' onclick='delete_module(this.id)'>Delete</button>";
-    console.log(modules);
 }
 
 function delete_module(id) {
@@ -245,7 +235,6 @@ function delete_module(id) {
     var a = modules.splice(0, num);
     var b = modules.splice(num, modules.length);
     modules = a.concat(b);
-    console.log(modules);
 }
 
 function add_module() {
