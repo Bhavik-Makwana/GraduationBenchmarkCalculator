@@ -169,7 +169,9 @@ function create_module(id) {
     num = id.slice(1, 2);
 
     m.name = document.getElementById('name-' + num).value;
-    m.CATS = document.getElementById('cats-' + num).value;
+    if (!!document.getElementById('cats-' + num).value) {
+        m.CATS = document.getElementById('cats-' + num).value;
+    }
     var assessTotal = 0;
     for (var i = 1; i <= moduleAssignments[num]; i++) {
         var w = document.getElementById('weight-' + num + '-' + i).value;
