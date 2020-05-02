@@ -91,16 +91,16 @@
                     <br> If you have modules with 0 coursework you can leave them out and the calculator will default your total
                     CATS to 120. If you're overcatting no clue but goodluck.
                     <br>.
-                    <br> NOTE: Do not enter a % sign thats just there so you dont put the decimal version, for some reason
-                    safari lets you put a % on a number input, this shouldn't be an issue on chrome.
+                    <br> NOTE: Do not enter a % sign thats just there so you dont put the decimal version, for some reason safari
+                    lets you put a % on a number input, this shouldn't be an issue on chrome.
                     <div class="field" id="modules">
                         <div class="box">
 
                             <label class="label">First Year</label>
                             <div class="control">
                                 Weighting*:
-                                <input id='weight-first-year' class="input" type="number" placeholder="e.g. 30%"> Mark*:
-                                <input id='mark-first-year' class="input" type="number" placeholder="e.g. 70%">
+                                <input id='weight-first-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%"> Mark*:
+                                <input id='mark-first-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%">
                             </div>
                         </div>
                         <div class="box">
@@ -109,9 +109,9 @@
                                 <label class="label">Second Year</label>
                                 <div class="control">
                                     Weighting*:
-                                    <input id='weight-second-year' class="input" type="number" placeholder="e.g. 30%">
+                                    <input id='weight-second-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%">
                                     <br> Mark*:
-                                    <input id='mark-second-year' class="input" type="number" placeholder="e.g. 70%">
+                                    <input id='mark-second-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%">
                                 </div>
                             </div>
                         </div>
@@ -121,9 +121,9 @@
                                 <label class="label">Third Year</label>
                                 <div class="control">
                                     Weighting*:
-                                    <input id='weight-third-year' class="input" type="number" placeholder="e.g. 60%">
+                                    <input id='weight-third-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 60%">
                                     <br> Mark (Predicted):
-                                    <input id='mark-third-year' class="input" type="number" placeholder="e.g. 70%"> use this as a guess to what your final grade without benchmark is
+                                    <input id='mark-third-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%"> use this as a guess to what your final grade without benchmark is
                                 </div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="control">
                                     CATS*:
-                                    <input class="input" id='cats-1' type="number" placeholder="e.g. 15">
+                                    <input class="input" id='cats-1' type="number" min="0" max="100" placeholder="e.g. 15">
                                 </div>
                             </div>
 
@@ -145,10 +145,10 @@
                                 <label class="label">Assignment</label>
                                 <div class="control">
                                     Weighting*:
-                                    <input id="weight-1-1" class="input" type="number" placeholder="e.g. 30%">
+                                    <input id="weight-1-1" onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%">
                                     <br>
                                     <br> Mark*:
-                                    <input id="mark-1-1" class="input" type="number" placeholder="e.g. 70%">
+                                    <input id="mark-1-1" onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%">
                                 </div>
 
                             </div>
@@ -172,10 +172,11 @@
                     </div>
                     <br>
                     <br>
-                    <p id='y3avg'>Year 3 Average: </p>
-                    <p id='gb'>Graduation Benchmark: </p>
-                    <p id='actual'>Forecasted Grade: </p>
-
+                    <div class="box">
+                        <p id='y3avg'>Year 3 Average: </p>
+                        <p id='gb'>Graduation Benchmark: </p>
+                        <p id='actual'>Forecasted Grade: </p>
+                    </div>
                 </div>
                 <!-- <div class="column is-full is-secondary">
                         <h1 class="title is-4">Intermmediate Year (To be added)</h1>
@@ -183,7 +184,12 @@
             </div>
         </div>
     </section>
-
+    <script>
+            function handleChange(input) {
+              if (input.value < 0) input.value = 0;
+              if (input.value > 100) input.value = 100;
+            }
+    </script>
 
 </body>
 

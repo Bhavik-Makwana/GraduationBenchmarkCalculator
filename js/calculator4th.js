@@ -135,6 +135,19 @@ function calculateGB() {
     if (isNaN(current_third_year)) {
         current_third_year = 0;
     }
+
+    if (actualGrade > graduationBenchmark) {
+        $("#actual").css("color","#00d1b2");
+        $("#gb").css("color","");
+    }
+    else if (graduationBenchmark > actualGrade) {
+        $('#gb').css("color","#00d1b2");
+        $("#actual").css("color","");
+    }
+    else {
+        $("#actual").css("color","");
+        $("#gb").css("color","");
+    }
     document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark.toFixed(2) +"%";
 
     document.getElementById('actual').innerHTML = "Forecasted Grade: " + actualGrade.toFixed(2) + "%";
