@@ -172,6 +172,9 @@ function create_module(id) {
     if (!!document.getElementById('cats-' + num).value) {
         m.CATS = document.getElementById('cats-' + num).value;
     }
+    else {
+        m.CATS = 0;
+    }
     var assessTotal = 0;
     for (var i = 1; i <= moduleAssignments[num]; i++) {
         var w = document.getElementById('weight-' + num + '-' + i).value;
@@ -182,8 +185,9 @@ function create_module(id) {
     }
     m.percentage_done();
     m.CATS_done();
-    modules.push(m);
-
+    if (m.CATS > 0) {
+        modules.push(m);
+    }
     document.getElementById('module-' + num).innerHTML =
     // $('#module-'+num).append(
         "<b>Module</b>: " + m.name +
