@@ -118,11 +118,19 @@ function calculateGB() {
     actualGrade =  (firstYear.mark*firstYear.weighting + secondYear.mark*secondYear.weighting +
         thirdYearActual.mark*thirdYearActual.weighting) / 
         (firstYear.weighting + secondYear.weighting + thirdYear.weighting);
+    if (isNaN(graduationBenchmark)) {
+        graduationBenchmark = 0;
+    }
+    if (isNaN(actualGrade)) {
+        actualGrade = 0;
+    }
+    if (isNaN(current_third_year)) {
+        current_third_year = 0;
+    }
+    document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark.toFixed(2)+"%";
 
-    document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark+"%";
-
-    document.getElementById('actual').innerHTML = "Forecasted Grade: " + actualGrade + "%";
-    document.getElementById('y3avg').innerHTML = "Year 3 Average: " + current_third_year + "%";
+    document.getElementById('actual').innerHTML = "Forecasted Grade: " + actualGrade.toFixed(2) + "%";
+    document.getElementById('y3avg').innerHTML = "Year 3 Average: " + current_third_year.toFixed(2) + "%";
 
 }
 
@@ -153,9 +161,9 @@ function create_module(id) {
     for (var i = 1; i <= moduleAssignments[num]; i++) {
         var w = document.getElementById('weight-' + num + '-' + i).value;
         var mark = document.getElementById('mark-' + num + '-' + i).value;
-        // if (w != null && mark != null){
-        m.add_assessment(w, mark);
-        // }
+        if (!!w && !!mark) {
+            m.add_assessment(w, mark);
+        }
     }
     m.percentage_done();
     m.CATS_done();
