@@ -1,5 +1,5 @@
 # Graduation Benchmark Calculator
 
 ## Contributors
-Alistair Robinson
+Alistair Robinson </br>
 Will Sewell
