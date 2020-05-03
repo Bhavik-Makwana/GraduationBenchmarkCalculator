@@ -192,11 +192,15 @@
                     <br>
                     <br>
                     <div class="box">
-                        <p id='y3avg'>Year 4 Average: </p>
+                        <p id='y3avg'>Year 3 Average: </p>
+                        <p id='gradeNeeded'>Year 3 Grade to no longer use graduation benchmark: </p>
                         <input type=hidden id="actualHidden" value=0 />
                         <input type=hidden id="gbHidden" value=30 />
                     </div>
+                    <div style="height: 600px">
+
                     <canvas id="safetyNetProjector" width="10" height="10"></canvas>
+                    </div>
                     <div class="box">
                             <p><b>Confused about the graph?</b><br>
                                 The calculation works slightly differently for intermediate year students. Because your 4th
@@ -205,11 +209,11 @@
                                 the graph shows you what you need to achieve in 3rd year to no longer need your safety net. 
                                 <br><br>
                                 The point where the two lines intersect is the point your safety net no longer matters. Achieve anything above
-                                the horizontal line and your safety net is no longer in affect. <br><br>
+                                the horizontal line and your safety net is no longer in effect. <br><br>
                                 Please note this is assuming you get the predicted grade you entered for 4th year.</p>
                     </div>
                     <script>
-                        x_axis = [...Array(100).keys()];
+                        x_axis = [...Array(101).keys()];
                         forecast = document.getElementById("actualHidden").value;
                         forecast = forecast.split(',');
                         forecast = forecast.map(e => parseFloat(e));
@@ -220,6 +224,7 @@
                         gradbench = gradbench.map(e => parseFloat(e));
 
                         var ctx = document.getElementById('safetyNetProjector').getContext('2d');
+                        ctx.height = 50;
                         var config = {
                             "type": "line",
                             "data": {
@@ -242,6 +247,8 @@
 
                             },
                             "options": {
+                                responsive: true,
+                                maintainAspectRatio: false,
                                 scales: {
                                     yAxes: [{
                                         scaleLabel: { display: true, labelString: "total grade (%)" },

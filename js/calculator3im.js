@@ -6,10 +6,11 @@ class Module {
         this.marks = [];
         this.percentageDone = 0;
         this.catsDone = 0;
-        
         this.scaledPercentageDone = 0;
         this.scaledCATS = 0;
         this.scaledWeightings = [];
+
+        this.ignore = false;
     }
     add_assessment(weight, mark) {
         this.weightings.push(weight);
@@ -43,6 +44,9 @@ class Module {
         this.scaledPercentageDone = this.percentageDone * scaler;
         this.scaledCATS = this.CATS * scaler;
     }
+    ignore() {
+        this,ignore=true;
+    }
 }
 
 var actual = 0;
@@ -68,6 +72,20 @@ var fourthYear = {
     "weighting": 0,
     
 };
+function delete_module(id) {
+    var id_int = parseInt(id);
+    for (var i = id_int; i < modules.length; i++)
+        if (i == modules.length-1) {
+            modules.pop();
+        }
+        else {
+            modules[i] = modules[i+1];
+        }
+    var element = document.getElementById(id);
+    var element2 = element.parentNode;
+    element2.parentNode.parentNode.parentNode.removeChild(element2.parentNode.parentNode);
+    
+}
 
 function calculateGB() {
     firstYear["mark"] = parseFloat(document.getElementById("mark-first-year").value);
@@ -157,9 +175,17 @@ console.log(firstYear);
 console.log(secondYear);
    console.log(thirdYear);
    console.log(fourthYear);
+    var intersect = (gradPoints[0] * (firstYear.weighting + secondYear.weighting + thirdYear.weighting + fourthYear.weighting));
+    console.log(intersect);
+    intersect -= (firstYear.mark*firstYear.weighting + secondYear.mark*secondYear.weighting + fourthYear.mark*fourthYear.weighting);
+    console.log(intersect);
+    intersect /= thirdYear.weighting;
+    if (!intersect) {
+        intersect = 0;
+    }
     document.getElementById('gbHidden').value = gradPoints ;
     document.getElementById('actualHidden').value = actualPoints ;
-    
+    document.getElementById('gradeNeeded').innerHTML = "Year 3 Grade to no longer use graduation benchmark: " + intersect.toFixed(2) + "%";
     document.getElementById('y3avg').innerHTML = "Year 3 Average: " + current_third_year.toFixed(2) + "%";
 
 }
@@ -170,7 +196,8 @@ console.log(secondYear);
 var moduleCount = 1;
 var moduleAssignments = { "1": 1 };
 function add_assignment(id) {
-    num = id.slice(1, 2);
+    num =  parseInt(id.replace ( /[^\d.]/g, '' ), 10);
+
     moduleAssignments[num] += 1;
     // document.getElementById("suckass-" + num).innerHTML +=
     $('#suckass-'+num).append(
@@ -183,7 +210,8 @@ function add_assignment(id) {
 
 function create_module(id) {
     m = new Module();
-    num = id.slice(1, 2);
+    num =  parseInt(id.replace ( /[^\d.]/g, '' ), 10);
+
 
     m.name = document.getElementById('name-' + num).value;
     if (!!document.getElementById('cats-' + num).value) {
@@ -204,22 +232,27 @@ function create_module(id) {
     m.CATS_done();
     if (m.CATS > 0) {
         modules.push(m);
+      
+    var modules_size = modules.length ;
+    console.log(modules_size);
+    document.getElementById('module-' + num).innerHTML =`
+        <article class = "media">
+        <div class = "media-content">
+        <b>Module</b>:  `+ m.name +`
+        <br><b>CATS</b>: ` + m.CATS +`
+        <br><b>Achieved</b>: ` + m.percentageDone + `% <br>
+        </div>
+        <div class = "media-right">
+        <button id='`+(modules.length-1)+`'class='button is-danger is-pushed-right' onclick='delete_module(this.id)'>X</button>";
+        </div>
+        </article>
+    `
     }
-
-    document.getElementById('module-' + num).innerHTML =
-    // $('#module-'+num).append(
-        "<b>Module</b>: " + m.name +
-        "<br><b>CATS</b>: " + m.CATS +
-        "<br><b>Achieved</b>: " + m.percentageDone + "% <br>";
-        // "<button id='d"+num+"'class='button is-link is-pushed-right' onclick='delete_module(this.id)'>Delete</button>";
-}
-
-function delete_module(id) {
-    num = id.slice(1, 2);
-    document.getElementById('module-' + num).parentNode.removeChild(document.getElementById('module-' + num));
-    var a = modules.splice(0, num);
-    var b = modules.splice(num, modules.length);
-    modules = a.concat(b);
+    else {
+        // alert("test");
+        console.log($('#cats-'+num));
+        $('#cats-'+num).addClass("is-danger");
+    }
 }
 
 function add_module() {
@@ -231,7 +264,7 @@ function add_module() {
     <div class="field">
         <label class="label">Module</label>
         <div class="control">
-            Name:
+            Name (optional):
             <input class="input" id='name-`+ moduleCount + `' type="text" placeholder="e.g. CS324 Graphics">
         </div>
         <div class="control">
