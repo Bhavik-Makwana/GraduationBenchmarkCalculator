@@ -19,11 +19,13 @@
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
         crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="js/graphy3.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
-    <script src="js/calculator.js"></script>
+    <script src="js/calculator2ndBsc.js"></script>
     <script src="js/navbar.js"></script>
 </head>
 
@@ -34,6 +36,7 @@
                 <img src="logo.png">
                 <b>Warwick GB Calculator</b>
             </a>
+
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -59,14 +62,243 @@
                     Fourth Year Finalists
                 </a>
 
+
             </div>
 
 
         </div>
     </nav>
+    <section class="hero is-link
+    ">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Graduation Benchmark Calculator (BETA)
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
 
-    TBA: This will probably be done after exams because you need to know your second year results to get an understanding of
-    what your graduation benchmark will be.
+            <div class="columns ">
+
+                <div class="column is-full ">
+                    <h1 class="title is-4">Second Year Bachelors</h1>
+                    This simple online tool will help you calculate your final grade and your graduation benchmark. Use the forecasted grade
+                    as what you think you might get in third year to see if your graduation benchmark will come in use or
+                    not. Please enter all values for an accurate result.
+                    <br>
+                    <br> If you have modules with 0 coursework you can leave them out and the calculator will default your total
+                    CATS to 120. If you're overcatting no clue but goodluck.
+                    <br>
+                    <br> The graph below may be hard to view on a mobile so its recommended you do this on a PC to easily see
+                    the results.
+                    <br> NOTE: Do not enter a % sign thats just there so you dont put the decimal version, for some reason safari
+                    lets you put a % on a number input, this shouldn't be an issue on chrome.
+                    <div class="field" id="modules">
+                        <div class="box">
+
+                            <label class="label">First Year</label>
+                            <div class="control">
+                                Weighting*:
+                                <input id='weight-first-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%"> Mark*:
+                                <input id='mark-first-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%">
+                            </div>
+                        </div>
+                        <div class="box">
+
+                            <div class="field">
+                                <label class="label">Second Year</label>
+                                <div class="control">
+                                    Weighting*:
+                                    <input id='weight-second-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%">
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="box" id="module-1">
+                            <div class="field">
+                                <label class="label">Module</label>
+                                <div class="control">
+                                    Name (optional):
+                                    <input class="input" id='name-1' type="text" placeholder="e.g. CS324 Graphics">
+                                </div>
+                                <div class="control">
+                                    CATS*:
+                                    <input class="input" id='cats-1' type="number" min="0" max="100" placeholder="e.g. 15">
+                                </div>
+                            </div>
+
+                            <div class="field" id='suckass-1'>
+                                <label class="label">Assignment</label>
+                                <div class="control">
+                                    Weighting*:
+                                    <input id="weight-1-1" onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%">
+                                    <br>
+                                    <br> Mark*:
+                                    <input id="mark-1-1" onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%">
+                                </div>
+
+                            </div>
+                            <div class="control">
+                                <button id='a1' onclick="add_assignment(this.id)" class="assignments-1 button is-link">Add assigment</button>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="control">
+                                <button id='m1' onclick="create_module(this.id)" class="button is-link">Done</button>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="control">
+                        <button class="button is-link " onclick="add_module()">Add Module</button>
+                    </div><br><br>
+                    <div class="box">
+
+                            <div class="field">
+                                <label class="label">Third Year</label>
+                                <div class="control">
+                                    Weighting*:
+                                    <input id='weight-third-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%">
+                                    <br> Mark (predicted)*:
+                                    <input id='mark-third-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%">
+                                </div>
+                            </div>
+                        </div>
+
+
+                    <!-- </div> -->
+
+                    <div class="control is-pulled-right	">
+                        <button id="calculate" onclick="calculateGB()" class="button is-primary">Calculate</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="box">
+                        <p id='y3avg'>Year 2 Average: </p>
+                        <p id='gradeNeeded'>Year 2 Grade to no longer use graduation benchmark: </p>
+                        <input type=hidden id="actualHidden" value=0 />
+                        <input type=hidden id="gbHidden" value=30 />
+                    </div>
+                    <div style="height: 600px">
+
+                        <canvas id="safetyNetProjector" width="10" height="10"></canvas>
+                    </div>
+                    <div class="box">
+                        <p>
+                            <b>Confused about the graph?</b>
+                            <br> The calculation works slightly differently for intermediate year students. Because your 4th
+                            year results are currently unknown, your graduation benchmark isn't set in stone yet. By giving
+                            a predicted 4th year grade (change this value to play with the graph), as well as everything
+                            else, the graph shows you what you need to achieve in 3rd year to no longer need your safety
+                            net.
+                            <br>
+                            <br> The point where the two lines intersect is the point your safety net no longer matters. Achieve
+                            anything above the horizontal line and your safety net is no longer in effect.
+                            <br>
+                            <br> Please note this is assuming you get the predicted grade you entered for 4th year.</p>
+                    </div>
+                    <script>
+                        x_axis = [...Array(101).keys()];
+                        forecast = document.getElementById("actualHidden").value;
+                        forecast = forecast.split(',');
+                        forecast = forecast.map(e => parseFloat(e));
+
+
+                        gradbench = document.getElementById("gbHidden").value;
+                        gradbench = gradbench.split(',');
+                        gradbench = gradbench.map(e => parseFloat(e));
+
+                        var ctx = document.getElementById('safetyNetProjector').getContext('2d');
+                        ctx.height = 50;
+                        var config = {
+                            "type": "line",
+                            "data": {
+                                "labels": x_axis,
+                                "datasets": [
+                                    {
+                                        "label": "Actual (predicted) Grade",
+                                        "data": forecast,
+                                        "fill": false,
+                                        "borderColor": "rgb(75, 192, 192)",
+                                        "lineTension": 0.1
+                                    },
+                                    {
+                                        "label": "Graduation Benchmark",
+                                        "data": gradbench,
+                                        "fill": false
+                                    }
+                                ],
+
+
+                            },
+                            "options": {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    yAxes: [{
+                                        scaleLabel: { display: true, labelString: "total grade (%)" },
+                                        ticks: {
+                                            suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+                                            // OR //
+                                            beginAtZero: true   // minimum value will be 0.
+                                        },
+
+                                    }],
+                                    xAxes: [{
+                                        scaleLabel: { display: true, labelString: "third year grade (%)" },
+                                        gridLines: {
+                                            display: false
+                                        }
+                                    }]
+
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'GB vs Actual Grade'
+                                }
+                            }
+                        };
+                        var myLineChart = new Chart(ctx, config);
+                        document.getElementById("calculate").addEventListener('click', function () {
+                            forecast = document.getElementById("actualHidden").value;
+                            forecast = forecast.split(',');
+                            forecast = forecast.map(e => parseFloat(e));
+
+
+                            gradbench = document.getElementById("gbHidden").value;
+                            gradbench = gradbench.split(',');
+                            gradbench = gradbench.map(e => parseFloat(e));
+                            // console.log(temp);
+
+                            config.data.datasets[0].data = forecast;
+
+
+                            config.data.datasets[1].data = gradbench;
+                            window.myLineChart.update();
+                        });
+                    </script>
+                </div>
+                <!-- <div class="column is-full is-secondary">
+                        <h1 class="title is-4">Intermmediate Year (To be added)</h1>
+                </div> -->
+            </div>
+        </div>
+    </section>
+    <script>
+        function handleChange(input) {
+            if (input.value < 0) input.value = 0;
+            if (input.value > 100) input.value = 100;
+        }
+    </script>
 
 </body>
 
