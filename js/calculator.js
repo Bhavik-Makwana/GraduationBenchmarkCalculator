@@ -262,7 +262,7 @@ function add_module() {
     <br>
     <br>
     <div class="control">
-        <button id="m`+ moduleCount + `" onclick="create_module(this.id)" class="button is-link">Done</button>
+        <button id="m`+ moduleCount + `" onclick="create_module(this.id)" class="button is-link">Confirm Module<</button>
     </div>
 </div>`);
 }
