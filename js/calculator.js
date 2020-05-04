@@ -200,7 +200,7 @@ function create_module(id) {
         <br><b>Achieved</b>: ` + m.percentageDone + `% <br>
         </div>
         <div class = "media-right">
-        <button id='`+(modules.length-1)+`'class='button is-danger is-pushed-right' onclick='delete_module(this.id)'>X</button>";
+        <button id='`+(modules.length-1)+`'class='button is-danger is-pushed-right' onclick='delete_module(this.id)'>X</button>
         </div>
         </article>
     `
