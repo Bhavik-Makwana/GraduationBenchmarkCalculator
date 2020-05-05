@@ -49,6 +49,50 @@ class Module {
     }
 }
 
+$(document).ready(function () {
+    $("#known-year").hide();
+    $('input[name="answer"]').click(function () {
+        var v = $('input[name="answer"]:checked').val();
+        if (v == "1") {
+            // alert(v.parentNode);
+            $("#known-year").show();
+
+
+
+            $("#add-module").prop("disabled", true);
+            for (var i = 1; i <= moduleCount; i++) {
+                $("#name-" + i).prop("disabled", true);
+                $("#cats-" + i).prop("disabled", true);
+                $("#a" + i).prop("disabled", true);
+                $("#m" + i).prop("disabled", true);
+
+
+                for (var j = 1; j <= moduleAssignments[i]; j++) {
+                    $("#weight-" + i + "-" + j).prop("disabled", true);
+                    $("#mark-" + i + "-" + j).prop("disabled", true);
+                }
+            }
+        }
+        else {
+            $("#add-module").prop("disabled", false);
+            for (var i = 1; i <= moduleCount; i++) {
+                $("#name-" + i).prop("disabled", false);
+                $("#cats-" + i).prop("disabled", false);
+                $("#a" + i).prop("disabled", false);
+                $("#m" + i).prop("disabled", false);
+
+                for (var j = 1; j <= moduleAssignments[i]; j++) {
+                    $("#weight-" + i + "-" + j).prop("disabled", false);
+                    $("#mark-" + i + "-" + j).prop("disabled", false);
+                }
+            }
+            $("#known-year").hide();
+        }
+
+    });
+});
+
+
 var actual = 0;
 var modules = [];
 
@@ -127,6 +171,13 @@ function calculateGB() {
 
     var current_third_year = (a / b) * 100;
 
+    var v = $('input[name="answer"]:checked').val()
+    if (v == "1") {
+        current_third_year = parseFloat($('#current-mark-third-year').val());
+        percent_of_third_year_completed = $('#third-year-completed').val() / 100;
+    }
+
+
     fourthYear.mark = parseFloat(document.getElementById('mark-fourth-year').value);
     fourthYear.weighting = document.getElementById('weight-fourth-year').value / 100;
     thirdYear.percentageDone = percent_of_third_year_completed;
@@ -171,14 +222,11 @@ function calculateGB() {
     if (isNaN(current_third_year)) {
         current_third_year = 0;
     }
-console.log(firstYear);
-console.log(secondYear);
-   console.log(thirdYear);
-   console.log(fourthYear);
+
     var intersect = (gradPoints[0] * (firstYear.weighting + secondYear.weighting + thirdYear.weighting + fourthYear.weighting));
-    console.log(intersect);
+
     intersect -= (firstYear.mark*firstYear.weighting + secondYear.mark*secondYear.weighting + fourthYear.mark*fourthYear.weighting);
-    console.log(intersect);
+
     intersect /= thirdYear.weighting;
     if (!intersect) {
         intersect = 0;
@@ -186,6 +234,7 @@ console.log(secondYear);
     document.getElementById('gbHidden').value = gradPoints ;
     document.getElementById('actualHidden').value = actualPoints ;
     document.getElementById('gradeNeeded').innerHTML = "Year 3 Grade to no longer use graduation benchmark: " + intersect.toFixed(2) + "%";
+    document.getElementById('gb').innerHTML = "Graduation Benchmark: " + gradPoints[0].toFixed(2) + "%";
     document.getElementById('y3avg').innerHTML = "Year 3 Average: " + current_third_year.toFixed(2) + "%";
 
 }
@@ -234,7 +283,6 @@ function create_module(id) {
         modules.push(m);
       
     var modules_size = modules.length ;
-    console.log(modules_size);
     document.getElementById('module-' + num).innerHTML =`
         <article class = "media">
         <div class = "media-content">
@@ -250,7 +298,6 @@ function create_module(id) {
     }
     else {
         // alert("test");
-        console.log($('#cats-'+num));
         $('#cats-'+num).addClass("is-danger");
     }
 }

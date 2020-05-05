@@ -6,7 +6,7 @@ class Module {
         this.marks = [];
         this.percentageDone = 0;
         this.catsDone = 0;
-        
+
         this.scaledPercentageDone = 0;
         this.scaledCATS = 0;
         this.scaledWeightings = [];
@@ -22,7 +22,7 @@ class Module {
             total += this.weightings[i] * this.marks[i];
         }
         this.percentageDone = total / 100;
-   
+
     }
 
     CATS_done() {
@@ -44,7 +44,52 @@ class Module {
         this.scaledCATS = this.CATS * scaler;
     }
 }
+var moduleCount = 1;
+var moduleAssignments = { "1": 1 };
 
+$(document).ready(function () {
+    $("#known-year").hide();
+    $('input[name="answer"]').click(function () {
+        var v = $('input[name="answer"]:checked').val();
+        if (v == "1") {
+  
+            // alert(v.parentNode);
+            $("#known-year").show();
+
+
+
+            $("#add-module").prop("disabled", true);
+            for (var i = 1; i <= moduleCount; i++) {
+                $("#name-" + i).prop("disabled", true);
+                $("#cats-" + i).prop("disabled", true);
+                $("#a" + i).prop("disabled", true);
+                $("#m" + i).prop("disabled", true);
+
+
+                for (var j = 1; j <= moduleAssignments[i]; j++) {
+                    $("#weight-" + i + "-" + j).prop("disabled", true);
+                    $("#mark-" + i + "-" + j).prop("disabled", true);
+                }
+            }
+        }
+        else {
+            $("#add-module").prop("disabled", false);
+            for (var i = 1; i <= moduleCount; i++) {
+                $("#name-" + i).prop("disabled", false);
+                $("#cats-" + i).prop("disabled", false);
+                $("#a" + i).prop("disabled", false);
+                $("#m" + i).prop("disabled", false);
+
+                for (var j = 1; j <= moduleAssignments[i]; j++) {
+                    $("#weight-" + i + "-" + j).prop("disabled", false);
+                    $("#mark-" + i + "-" + j).prop("disabled", false);
+                }
+            }
+            $("#known-year").hide();
+        }
+
+    });
+});
 
 var modules = [];
 
@@ -81,7 +126,7 @@ function calculateGB() {
             scaleFactor = modules[i].CATS;
         }
     }
-    
+
     for (var i = 0; i < modules.length; i++) {
         modules[i].scale_data(scaleFactor);
     }
@@ -90,20 +135,26 @@ function calculateGB() {
     var total_cats = 0;
     for (var i = 0; i < modules.length; i++) {
         percent_of_third_year_completed += parseFloat(modules[i].catsDone);
-  
-        total_cats += parseInt(modules[i].CATS,10);
+
+        total_cats += parseInt(modules[i].CATS, 10);
     }
     if (total_cats < 120) {
         total_cats = 120;
     }
-    
+
     percent_of_third_year_completed /= total_cats;
-    
+
     var a = modules.reduce((prev, cur) => prev + cur.scaledPercentageDone, 0);
 
     var b = modules.reduce((prev, cur) => prev + cur.scaledWeightings.reduce((a, b) => a + b, 0), 0);
 
     var current_third_year = (a / b) * 100;
+    var v = $('input[name="answer"]:checked').val()
+    if (v == "1") {
+        current_third_year = parseFloat($('#current-mark-third-year').val());
+        // console.log(current_third_year)
+        percent_of_third_year_completed = $('#third-year-completed').val() / 100;
+    }
 
     thirdYear.mark = current_third_year;
     thirdYear.weighting = document.getElementById('weight-third-year').value / 100;
@@ -116,8 +167,8 @@ function calculateGB() {
         (thirdYear.mark * thirdYear.weighting * thirdYear.percentageDone)) /
         (firstYear.weighting + secondYear.weighting + (thirdYear.weighting * thirdYear.percentageDone));
 
-    actualGrade =  (firstYear.mark*firstYear.weighting + secondYear.mark*secondYear.weighting +
-        thirdYearActual.mark*thirdYearActual.weighting) / 
+    actualGrade = (firstYear.mark * firstYear.weighting + secondYear.mark * secondYear.weighting +
+        thirdYearActual.mark * thirdYearActual.weighting) /
         (firstYear.weighting + secondYear.weighting + thirdYear.weighting);
     if (isNaN(graduationBenchmark)) {
         graduationBenchmark = 0;
@@ -129,19 +180,19 @@ function calculateGB() {
         current_third_year = 0;
     }
     if (actualGrade > graduationBenchmark) {
-        $("#actual").css("color","#00d1b2");
-        $("#gb").css("color","");
+        $("#actual").css("color", "#00d1b2");
+        $("#gb").css("color", "");
     }
     else if (graduationBenchmark > actualGrade) {
-        $('#gb').css("color","#00d1b2");
-        $("#actual").css("color","");
+        $('#gb').css("color", "#00d1b2");
+        $("#actual").css("color", "");
     }
     else {
-        $("#actual").css("color","");
-        $("#gb").css("color","");
+        $("#actual").css("color", "");
+        $("#gb").css("color", "");
     }
-    
-    document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark.toFixed(2)+"%";
+
+    document.getElementById('gb').innerHTML = "Graduation Benchmark: " + graduationBenchmark.toFixed(2) + "%";
     document.getElementById('actual').innerHTML = "Forecasted Grade: " + actualGrade.toFixed(2) + "%";
     document.getElementById('y3avg').innerHTML = "Year 3 Average: " + current_third_year.toFixed(2) + "%";
 
@@ -150,14 +201,13 @@ function calculateGB() {
 
 
 
-var moduleCount = 1;
-var moduleAssignments = { "1": 1 };
+
 function add_assignment(id) {
-    num =  parseInt(id.replace ( /[^\d.]/g, '' ), 10);
+    num = parseInt(id.replace(/[^\d.]/g, ''), 10);
 
     moduleAssignments[num] += 1;
     // document.getElementById("suckass-" + num).innerHTML +=
-    $('#suckass-'+num).append(
+    $('#suckass-' + num).append(
         `<hr>
         <div class="control">
         Weighting: <input id="weight-`+ num + `-` + moduleAssignments[num] + `" class="input" type="number" placeholder="e.g. 30"> <br><br>
@@ -167,7 +217,7 @@ function add_assignment(id) {
 
 function create_module(id) {
     m = new Module();
-    num =  parseInt(id.replace ( /[^\d.]/g, '' ), 10);
+    num = parseInt(id.replace(/[^\d.]/g, ''), 10);
 
 
     m.name = document.getElementById('name-' + num).value;
@@ -189,26 +239,26 @@ function create_module(id) {
     m.CATS_done();
     if (m.CATS > 0) {
         modules.push(m);
-      
-    var modules_size = modules.length ;
-    console.log(modules_size);
-    document.getElementById('module-' + num).innerHTML =`
+
+        var modules_size = modules.length;
+  
+        document.getElementById('module-' + num).innerHTML = `
         <article class = "media">
         <div class = "media-content">
-        <b>Module</b>:  `+ m.name +`
-        <br><b>CATS</b>: ` + m.CATS +`
+        <b>Module</b>:  `+ m.name + `
+        <br><b>CATS</b>: ` + m.CATS + `
         <br><b>Achieved</b>: ` + m.percentageDone + `% <br>
         </div>
         <div class = "media-right">
-        <button id='`+(modules.length-1)+`'class='button is-danger is-pushed-right' onclick='delete_module(this.id)'>X</button>
+        <button id='`+ (modules.length - 1) + `'class='button is-danger is-pushed-right' onclick='delete_module(this.id)'>X</button>
         </div>
         </article>
     `
     }
     else {
         // alert("test");
-        console.log($('#cats-'+num));
-        $('#cats-'+num).addClass("is-danger");
+
+        $('#cats-' + num).addClass("is-danger");
     }
 }
 
@@ -216,22 +266,22 @@ function create_module(id) {
 function delete_module(id) {
     var id_int = parseInt(id);
     for (var i = id_int; i < modules.length; i++)
-        if (i == modules.length-1) {
+        if (i == modules.length - 1) {
             modules.pop();
         }
         else {
-            modules[i] = modules[i+1];
+            modules[i] = modules[i + 1];
         }
     var element = document.getElementById(id);
     var element2 = element.parentNode;
     element2.parentNode.parentNode.parentNode.removeChild(element2.parentNode.parentNode);
-    
+
 }
 function add_module() {
     moduleCount += 1;
     moduleAssignments[moduleCount] = 1;
     $('#modules').append(
-    // document.getElementById("modules").innerHTML +=
+        // document.getElementById("modules").innerHTML +=
         `<div class="box" id="module-` + moduleCount + `">
     <div class="field">
         <label class="label">Module</label>

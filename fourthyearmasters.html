@@ -135,6 +135,22 @@
                                     <input id='weight-fourth-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 60%">
                                     <br> Mark (Predicted):
                                     <input id='mark-fourth-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%"> use this as a guess to what your final grade without benchmark is
+                                    <div class="control">
+                                            <br> Already know your year average achieved so far?
+                                            <label class="radio">
+                                                <input type="radio" value="1" name="answer"> Yes
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" value="0" name="answer"> No
+                                            </label>
+                                        </div>
+                                        <div id="known-year">
+                                            <br> Current Mark:
+                                            <input id='current-mark-third-year' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 70%">
+                                            <br> Percentage of Year Completed So Far:
+                                            <input id='third-year-completed' onchange="handleChange(this);" class="input" type="number" min="0" max="100" placeholder="e.g. 30%">
+    
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +190,7 @@
                         </div>
                     </div>
                     <div class="control">
-                        <button class="button is-link " onclick="add_module()">Add Module</button>
+                        <button id="add-module" class="button is-link " onclick="add_module()">Add Module</button>
                     </div>
                     <br>
                     <br>

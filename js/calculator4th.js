@@ -45,6 +45,51 @@ class Module {
     }
 }
 
+$(document).ready(function () {
+    $("#known-year").hide();
+    $('input[name="answer"]').click(function () {
+        var v = $('input[name="answer"]:checked').val();
+        if (v == "1") {
+        
+            // alert(v.parentNode);
+            $("#known-year").show();
+
+
+
+            $("#add-module").prop("disabled", true);
+            for (var i = 1; i <= moduleCount; i++) {
+                $("#name-" + i).prop("disabled", true);
+                $("#cats-" + i).prop("disabled", true);
+                $("#a" + i).prop("disabled", true);
+                $("#m" + i).prop("disabled", true);
+
+
+                for (var j = 1; j <= moduleAssignments[i]; j++) {
+                    $("#weight-" + i + "-" + j).prop("disabled", true);
+                    $("#mark-" + i + "-" + j).prop("disabled", true);
+                }
+            }
+        }
+        else {
+            $("#add-module").prop("disabled", false);
+            for (var i = 1; i <= moduleCount; i++) {
+                $("#name-" + i).prop("disabled", false);
+                $("#cats-" + i).prop("disabled", false);
+                $("#a" + i).prop("disabled", false);
+                $("#m" + i).prop("disabled", false);
+
+                for (var j = 1; j <= moduleAssignments[i]; j++) {
+                    $("#weight-" + i + "-" + j).prop("disabled", false);
+                    $("#mark-" + i + "-" + j).prop("disabled", false);
+                }
+            }
+            $("#known-year").hide();
+        }
+
+    });
+});
+
+
 var modules = [];
 
 
@@ -110,6 +155,11 @@ function calculateGB() {
     var b = modules.reduce((prev, cur) => prev + cur.scaledWeightings.reduce((a, b) => a + b, 0), 0);
 
     var current_third_year = (a / b) * 100;
+    var v = $('input[name="answer"]:checked').val()
+    if (v == "1") {
+        current_third_year = parseFloat($('#current-mark-third-year').val());
+        percent_of_third_year_completed = $('#third-year-completed').val() / 100;
+    }
 
     fourthYear.mark = current_third_year;
     fourthYear.weighting = document.getElementById('weight-fourth-year').value / 100;
@@ -199,7 +249,7 @@ function create_module(id) {
         modules.push(m);
       
     var modules_size = modules.length ;
-    console.log(modules_size);
+    
     document.getElementById('module-' + num).innerHTML =`
         <article class = "media">
         <div class = "media-content">
@@ -215,7 +265,7 @@ function create_module(id) {
     }
     else {
         // alert("test");
-        console.log($('#cats-'+num));
+    
         $('#cats-'+num).addClass("is-danger");
     }
 }
